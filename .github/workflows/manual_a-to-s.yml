@@ -1,0 +1,23 @@
+name: Import Apple Music Playlist
+
+on:
+  workflow_dispatch:
+
+jobs:
+  import-playlist:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.11
+      - name: Install dependencies
+        run: pip install requests beautifulsoup4
+      - name: Run import script
+        env:
+          SPOTIFY_CLIENT_ID: ${{ secrets.SPOTIFY_CLIENT_ID }}
+          SPOTIFY_CLIENT_SECRET: ${{ secrets.SPOTIFY_CLIENT_SECRET }}
+          SPOTIFY_REFRESH_TOKEN: ${{ secrets.SPOTIFY_REFRESH_TOKEN }}
+          SPOTIFY_USER_ID: ${{ secrets.SPOTIFY_USER_ID }}
+        run: python apple_to_spotify_playlist.py
